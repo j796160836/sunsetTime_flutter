@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sunset_time/loading_view.dart';
+
+import 'error_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -40,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: LoadingView(),
+        child: ErrorView(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
@@ -50,4 +51,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
