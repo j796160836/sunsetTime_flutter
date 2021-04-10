@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sunset_time/loading_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -39,16 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text("載入中...", style: TextStyle(fontSize: 18),),
-            ),
-          ],
-        ),
+        child: LoadingView(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
@@ -58,3 +50,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
