@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'error_view.dart';
+import 'package:flutter_sunset_time/api_respository.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,11 +28,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  ApiRepository apiRepository = ApiRepository();
+  String result;
 
   void _incrementCounter() {
-    setState(() {
-      _counter++;
+    apiRepository.fetchData().then((value) {
+      setState(() {
+        result = value.results.sunset;
+      });
     });
   }
 
@@ -41,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ErrorView(),
+        child: Text("$result"),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

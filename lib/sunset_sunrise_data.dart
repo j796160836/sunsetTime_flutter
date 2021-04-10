@@ -13,3 +13,4 @@ class SunsetSunriseData {
     map['sunset'] = sunset;
     return map;
   }
+}
