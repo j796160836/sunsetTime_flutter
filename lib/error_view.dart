@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ErrorView extends StatelessWidget {
+  VoidCallback onRefreshButtonClick;
+
+  ErrorView({this.onRefreshButtonClick}) {}
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,7 +19,7 @@ class ErrorView extends StatelessWidget {
             style: TextStyle(fontSize: 16),
           ),
           onPressed: () {
-            print("aaaa");
+            onRefreshButtonClick();
           },
         ),
       ],

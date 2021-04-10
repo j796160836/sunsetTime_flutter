@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sunset_time/api_respository.dart';
+import 'package:flutter_sunset_time/error_view.dart';
+import 'package:flutter_sunset_time/loading_view.dart';
+import 'package:flutter_sunset_time/result_view.dart';
+import 'package:flutter_sunset_time/sunset_sunrise_data_response.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,26 +34,42 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   ApiRepository apiRepository = ApiRepository();
-  String result;
 
-  void _incrementCounter() {
-    apiRepository.fetchData().then((value) {
-      setState(() {
-        result = value.results.sunset;
-      });
-    });
+  Future<String> fetchSunsetData() async {
+    SunsetSunriseDataResponse response = await apiRepository.fetchData();
+    DateTime date = DateTime.parse(response.results.sunset);
+    DateFormat formatter = DateFormat("HH:mm");
+    return formatter.format(date.toLocal());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("$result"),
+        child: FutureBuilder<String>(
+          future: fetchSunsetData(),
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            if (snapshot.hasData) {
+              // Loaded complete!
+              return ResultView(stringTime: snapshot.data);
+            } else if (snapshot.hasError) {
+              // Loaded with error :(
+              return ErrorView(onRefreshButtonClick: () {
+                setState(() {});
+              });
+            } else {
+              // Loading...
+              return LoadingView();
+            }
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: () {
+          setState(() {});
+        },
+        tooltip: 'Refresh',
+        child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
